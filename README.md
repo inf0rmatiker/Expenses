@@ -6,5 +6,12 @@ Instructions for installation:
 1. Install Eclipse for Java Developers and JDK. 
 2. In Eclipse, make a New > Java Project called ExpenseCalculator.
 3. Download both Calculator.java and Expense.java to your ExpenseCalculator/src folder.
-4. Make a Google Sheets called ExpenseReport.
-5. First row of Expense  Report should be Name1, Name2, 
+4. Make a Google Sheets called whatever you want.
+5. Share permissions to edit with the person you are sharing expenses with by clicking SHARE.
+6. First row of your Google sheet should be: Name 1, Name 2, Amount, Description, Paid, Date.
+   > Format of Dates should be MM/DD/YYYY
+   > Format of Amounts should be just a decimal number
+   > Format of Paid should be marked with an 'x'
+   > Mark an 'x' on the Name column of whoever paid for the expense
+7. 
+
