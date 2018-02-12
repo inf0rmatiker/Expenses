@@ -1,83 +1,107 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.io.FileNotFoundException;
 
-
 public class Calculator {
 
-	public static void main(String[] args) throws FileNotFoundException, ParseException {
-		// 0 for Caleb, 1 for Grace
-		
-		
-		ArrayList<Expense> expenses = new ArrayList<Expense>();
-		readFile(args[0], expenses);
-		
-		for (Expense expense : expenses) {
-			System.out.println(expense.toString());
-		}
-		
-		// Calculate what is owed
-		double graceTotal = 0;
-		double calebTotal = 0;
-		double difference = 0;
-		for (Expense expense : expenses) {
-			
-			if (expense.person == 0) {
-				//add to Caleb's total
-				if (!expense.paid) {
-					calebTotal += expense.expenseAmount;
-				}
-			}
-			else {
-				//add to Grace's total
-				if (!expense.paid) {
-					graceTotal += expense.expenseAmount;
-				}
-			}
-		}
-		difference = calebTotal - graceTotal;
-		if (difference < 0) {
-			System.out.printf("Caleb owes Grace: $%.2f", Math.abs(difference)/2);
-		}
-		else System.out.printf("Grace owes Caleb: $%.2f", difference/2);
-		
+	private String name1;
+	private String name2;
+	protected List<Expense> expenses;
+	public double difference;
+
+	public Calculator() {
+		expenses = new ArrayList<Expense>();
+		difference = 0;
+	}
+
+	public static void main(String[] args) throws FileNotFoundException {
+		// 0 for Person 1, 1 for Person 2
+		BasicUI basicUI = new BasicUI();
 
 	}
-	
-	public static void readFile(String fileName, ArrayList<Expense> expenses) throws FileNotFoundException, ParseException{
+
+	public void calculate() {
 		
-		Scanner scan = new Scanner(new File(fileName));
-		//First line is descriptions
-		scan.nextLine();
+		// Calculate what is owed
+		double person1Total = 0;
+		double person2Total = 0;
+
+		for (Expense expense : expenses) {
+			if (expense.person == 0) {
+				// add to person1Total
+				if (!expense.paid) {
+					person1Total += expense.expenseAmount;
+				}
+			} else {
+				// add to person2Total
+				if (!expense.paid) {
+					person2Total += expense.expenseAmount;
+				}
+			}
+		}
+		difference = person1Total - person2Total;
+			
+	}
+
+	public void readFile(File file) throws FileNotFoundException, ParseException {
+
+		Scanner scan = new Scanner(file);
+		
+		// First line is descriptions
+		String[] titleLine = scan.nextLine().split(",");
+
+		this.name1 = (titleLine[0].length() > 0) ? titleLine[0] : "Person 1";
+		this.name2 = (titleLine[1].length() > 0) ? titleLine[1] : "Person 2";
+
 		while (scan.hasNextLine()) {
 			String line = scan.nextLine().trim();
 			if (line != null) {
-				//create expense with new line
-				//System.out.println(line);
+				// create expense with new line
+				// System.out.println(line);
 				String[] expenseLine = line.split(",");
-				Expense expense;
-				if (expenseLine[0].trim().isEmpty()) {
-					//Grace Paid
-					expense = new Expense(1, Double.parseDouble(expenseLine[2]));
-				}
-				else {
-					//Caleb Paid
-					expense = new Expense(0, Double.parseDouble(expenseLine[2]));
-				}
 				
+				Expense expense;
+
+				if (expenseLine[0].trim().isEmpty()) {
+					// Person 1 Paid
+					expense = new Expense(1, Double.parseDouble(expenseLine[2]), name1, name2);
+				} else {
+					// Person 2 Paid
+					expense = new Expense(0, Double.parseDouble(expenseLine[2]), name1, name2);
+				}
+
 				expense.addPaid(!expenseLine[4].trim().isEmpty());
 				expense.addDescription(expenseLine[3]);
-				//if it has a date attached
-				if (!expenseLine[5].trim().isEmpty()) expense.parseDate(expenseLine[5]);
+				// if it has a date attached
+				if (!expenseLine[5].trim().isEmpty())
+					expense.parseDate(expenseLine[5]);
 				expenses.add(expense);
 			}
-			
+
 		}
-		
+
 		scan.close();
+	}
+	
+	public String getName1() {
+		return name1;
+	}
+	
+	public String getName2() {
+		return name2;
+	}
+	
+	public String getDescription() {
+		String str = "";
+		for (Expense expense: expenses) {
+			str += String.format("%s\n", expense.toString());
+		}
+		System.out.println(str);
+		return str;
 	}
 
 }
