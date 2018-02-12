@@ -9,11 +9,11 @@ Instructions for use:
    - First row should be formatted as: Name 1 | Name 2 | Amount | Description | Paid | Date
    - Each following row is an expense item
    - Each expense item should be formatted as: 
-        > "x" in tile for who paid
-        > decimal amount paid (no dollar sign)
-        > optional description
-        > "x" in paid tile if mutual expense has been settled
-        > date in format MM/DD/YYYY
+        - "x" in tile for who paid
+        - decimal amount paid (no dollar sign)
+        - optional description
+        - "x" in paid tile if mutual expense has been settled
+        - date in format MM/DD/YYYY
 3. Download google sheet as .csv file by going to File > Download As > Comma-Separated Values (.csv)
 4. Double click ExpenseCalculator.jar (run with Java SE)
 5. Click "Choose File" and choose the .csv google sheet you downloaded.
