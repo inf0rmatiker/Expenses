@@ -100,7 +100,6 @@ public class Calculator {
 		for (Expense expense: expenses) {
 			str += String.format("%s\n", expense.toString());
 		}
-		System.out.println(str);
 		return str;
 	}
 
