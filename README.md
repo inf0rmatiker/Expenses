@@ -11,7 +11,7 @@ Instructions for use:
    - Each following row is an expense item
    - Each expense item should be formatted as: 
         - "x" in tile for who paid
-        - decimal amount paid (no dollar sign)
+        - decimal amount paid
         - optional description
         - "x" in paid tile if mutual expense has been settled
         - date in format MM/DD/YYYY
