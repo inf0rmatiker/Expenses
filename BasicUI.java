@@ -32,10 +32,15 @@ public class BasicUI extends JFrame implements ActionListener {
 	private JButton fileSelect;
 	private JButton exitButton;
 	private JButton helpButton;
+	private boolean helpToggle;
 	
 	public BasicUI() {
+		helpToggle = false;
+		this.setupButtons();
+		this.setupLabels();
+		this.setupPanels();
 		this.setupFrame();
-		
+
 	}
 	
 	public void setupFrame () {
@@ -45,10 +50,6 @@ public class BasicUI extends JFrame implements ActionListener {
 		basicFrame.setTitle("Expense Calculator");
 		basicFrame.setSize(550, 650);
 		basicFrame.setLocationRelativeTo(null);	
-		
-		this.setupButtons();
-		this.setupLabels();
-		this.setupPanels();
 		
 		basicFrame.add(topPanel, BorderLayout.NORTH);
 		basicFrame.add(middlePanel, BorderLayout.CENTER);
@@ -63,6 +64,7 @@ public class BasicUI extends JFrame implements ActionListener {
 		filePath = new JLabel("File Name: No File Selected!");
 		filePath.setFont(new Font("Arial", Font.ITALIC, 20));
 		
+		
 	}
 	
 	public void setupButtons() {
@@ -75,8 +77,10 @@ public class BasicUI extends JFrame implements ActionListener {
 		fileSelect.setToolTipText("Browse for a File");
 		exitButton.setToolTipText("Exit Program");
 		
+		
 		exitButton.addActionListener(this);
 		fileSelect.addActionListener(this);
+		helpButton.addActionListener(this);
 		
 	}
 
@@ -97,12 +101,45 @@ public class BasicUI extends JFrame implements ActionListener {
 	
 	
 	private void exit() {
+		middlePanel.removeAll();
 		this.setVisible(false);
 		this.dispose();
 		System.exit(0);
 	}
+	private void help() {
+		if (!helpToggle) {
+			middlePanel.removeAll();
+			String[] helpList = {"Usage Instructions:",
+					"Download and import Google Sheets containing expenses as .csv file",
+					"Format of Google Sheets:",
+					"    - Row 1: Name 1, Name 2, Expense Amount, Description, Paid, Date",
+					"    - All other rows: Mark who paid, and if the expense has been settled",
+					"    - Date format must be MM/DD/YYYY",
+					"To import Google Sheets:",
+					"    - Google Sheets > File > Download As > .csv file",
+			"    - Choose File > filename.csv"};
+
+			JList<String> usageList = new JList<String>(helpList);
+			//		usageList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+			usageList.setLayoutOrientation(JList.VERTICAL);
+			//		usageList.setVisibleRowCount(20);
+			usageList.setFixedCellHeight(30);
+			//		usageList.setFixedCellWidth(450);
+			usageList.setBackground(new Color(150, 200, 150));
+			usageList.setFont(new Font("Arial", Font.BOLD, 15));
+			middlePanel.add(usageList, BorderLayout.CENTER);
+			middlePanel.updateUI();
+			helpToggle = true;
+		} else {
+			middlePanel.removeAll();
+			middlePanel.updateUI();
+			helpToggle = false;
+			
+		}
+	}
 	
 	private void browseFiles() throws ParseException {
+		
 		File file = new File(".");
 		
 		// File browser dialog object
@@ -142,7 +179,11 @@ public class BasicUI extends JFrame implements ActionListener {
 		
 	}
 	
+	
 	public void printResults(Calculator calc) {
+		
+		middlePanel.removeAll();
+		
 		String[] list = new String[calc.expenses.size()];
 		for (int i = 0; i < list.length; i++) list[i] = calc.expenses.get(i).toString();
 		
@@ -163,6 +204,7 @@ public class BasicUI extends JFrame implements ActionListener {
 		listScroller.setPreferredSize(new Dimension(250, 80));
 		middlePanel.add(listScroller, BorderLayout.CENTER);
 		middlePanel.add(result, BorderLayout.SOUTH);
+		middlePanel.updateUI();
 		
 	}
 	
@@ -180,7 +222,9 @@ public class BasicUI extends JFrame implements ActionListener {
 				e.printStackTrace();
 			}
 		}
-		
+		else {
+			help();
+		}
 	}	
 
 }
