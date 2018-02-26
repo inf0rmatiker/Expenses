@@ -58,6 +58,7 @@ public class Calculator {
 		this.name2 = (titleLine[1].length() > 0) ? titleLine[1] : "Person 2";
 
 		while (scan.hasNextLine()) {
+			double amount = 0.0;
 			String line = scan.nextLine().trim();
 			if (line != null) {
 				// create expense with new line
@@ -65,20 +66,23 @@ public class Calculator {
 				String[] expenseLine = line.split(",");
 				
 				Expense expense;
-
+				amount = (expenseLine[2].charAt(0) == '$') ? Double.parseDouble(expenseLine[2].substring(1)) : Double.parseDouble(expenseLine[2]);
 				if (expenseLine[0].trim().isEmpty()) {
 					// Person 1 Paid
-					expense = new Expense(1, Double.parseDouble(expenseLine[2]), name1, name2);
+					expense = new Expense(1, amount, name1, name2);
 				} else {
 					// Person 2 Paid
-					expense = new Expense(0, Double.parseDouble(expenseLine[2]), name1, name2);
+					expense = new Expense(0, amount, name1, name2);
 				}
 
 				expense.addPaid(!expenseLine[4].trim().isEmpty());
 				expense.addDescription(expenseLine[3]);
 				// if it has a date attached
-				if (!expenseLine[5].trim().isEmpty())
-					expense.parseDate(expenseLine[5]);
+				if (expenseLine.length > 4) {
+					if (!expenseLine[5].trim().isEmpty())
+						expense.setDate(expenseLine[5]);
+				}
+				
 				expenses.add(expense);
 			}
 
@@ -100,6 +104,7 @@ public class Calculator {
 		for (Expense expense: expenses) {
 			str += String.format("%s\n", expense.toString());
 		}
+		System.out.println(str);
 		return str;
 	}
 
