@@ -10,10 +10,10 @@ public class Expense {
 	public double expenseAmount;
 	public String description;
 	public boolean paid;
-	public Date date;
-	public SimpleDateFormat dateFormat;
 	private String name1;
 	private String name2;
+	private String date;
+	
 	
 	public Expense() {
 		this(0, 0.0, "Person 1", "Person 2");
@@ -22,7 +22,6 @@ public class Expense {
 	public Expense(int person, double amount, String name1, String name2){
 		this.person = person;
 		this.expenseAmount = amount;
-		this.dateFormat = new SimpleDateFormat("MM/dd/yy");
 		this.name1 = name1;
 		this.name2 = name2;
 	}
@@ -35,9 +34,8 @@ public class Expense {
 		this.paid = paid;
 	}
 	
-	
-	public void parseDate (String date) throws ParseException {
-			this.date = dateFormat.parse(date);
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public String toString () {
@@ -48,18 +46,16 @@ public class Expense {
 		}
 		else person = name2;
 		
-		str += person + " | $" + this.expenseAmount + " | " + this.description + " | " + this.paid + " | " + dateFormat.format(date);
+		str += person + " | $" + this.expenseAmount + " | " + this.description + " | " + this.paid + " | " + this.date;
 		
 		return str;
 	}
 
 	public String getName2() {
-		// TODO Auto-generated method stub
 		return name2;
 	}
 
 	public String getName1() {
-		// TODO Auto-generated method stub
 		return name1;
 	}
 }
