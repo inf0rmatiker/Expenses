@@ -14,7 +14,7 @@ Instructions for use:
         - decimal amount paid
         - optional description
         - "x" in paid tile if mutual expense has been settled
-        - date in format MM/DD/YYYY
+        - optional date in format MM/DD/YYYY
 3. Download google sheet as .csv file by going to File > Download As > Comma-Separated Values (.csv)
 4. Double click ExpenseCalculator.jar (run with Java SE)
       - Open With > Browse Files > java.exe
